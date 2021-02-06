@@ -14,7 +14,7 @@ dependencies:
   source_gen: ^0.9.10+1
   copy_with_extension: 
     git:
-      url: git@github.com:josiahsrc/copy_with_extension.git
+      url: git@github.com:StockMotion/copy_with_extension.git
       path: copy_with_extension
 
 dev_dependencies:
