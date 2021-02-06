@@ -184,7 +184,7 @@ class _FieldInfo {
 
     final typeLib = element.type.element.library;
     for (final pref in element.library.prefixes) {
-      if (pref.enclosingElement.displayName == typeLib.displayName) {
+      if (pref.enclosingElement.identifier == typeLib.identifier) {
         prefix = '${pref.displayName}.';
       }
     }
