@@ -20,7 +20,7 @@ class CopyWithGenerator extends GeneratorForAnnotation<CopyWith> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (element is !ClassElement) {
+    if (!(element is ClassElement)) {
       throw '$element is not a ClassElement';
     }
 
