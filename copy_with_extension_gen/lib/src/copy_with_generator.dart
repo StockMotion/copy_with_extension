@@ -20,9 +20,11 @@ class CopyWithGenerator extends GeneratorForAnnotation<CopyWith> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
-    if (element is! ClassElement) throw '$element is not a ClassElement';
+    if (element is ClassElement) {
+      throw '$element is not a ClassElement';
+    }
 
-    final classElement = element;
+    final classElement = element as ClassElement;
     final sortedFields = _sortedConstructorFields(classElement);
     final generateCopyWithNull =
         annotation.read('generateCopyWithNull').boolValue;
@@ -73,7 +75,7 @@ class CopyWithGenerator extends GeneratorForAnnotation<CopyWith> {
         if (v.immutable) {
           return '$r';
         } else {
-          return '$r ${v.type}? ${v.name},';
+          return '$r ${v.type} ${v.name},';
         }
       },
     );
@@ -166,18 +168,30 @@ class CopyWithGenerator extends GeneratorForAnnotation<CopyWith> {
 ///Represents a single class field with the additional metadata needed for code generation.
 class _FieldInfo {
   final String name;
-  final String type;
+  String type;
   final bool immutable;
   final bool nullable;
 
   _FieldInfo(ParameterElement element, ClassElement classElement)
       : name = element.name,
-        type = element.type.getDisplayString(withNullability: false),
         immutable = _readFieldOptions(element, classElement).immutable,
         nullable = element.type.nullabilitySuffix != NullabilitySuffix.none,
         assert(element.name is String),
         assert(element.type.getDisplayString(withNullability: false) is String),
-        assert(_readFieldOptions(element, classElement).immutable is bool);
+        assert(_readFieldOptions(element, classElement).immutable is bool) {
+    final typeName = element.type.getDisplayString(withNullability: false);
+    final typeLibraryName = element.library.name;
+    var prefix = '';
+
+    for (final pref in element.library.prefixes) {
+      final prefLibrary = pref.library.name;
+      if (prefLibrary == typeLibraryName) {
+        prefix = '${pref.displayName}.';
+      }
+    }
+
+    type = prefix + typeName;
+  }
 
   static CopyWithField _readFieldOptions(
     ParameterElement element,
