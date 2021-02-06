@@ -180,12 +180,11 @@ class _FieldInfo {
         assert(element.type.getDisplayString(withNullability: false) is String),
         assert(_readFieldOptions(element, classElement).immutable is bool) {
     final typeName = element.type.getDisplayString(withNullability: false);
-    final typeLibraryName = element.librarySource.fullName;
     var prefix = '';
 
+    final typeLib = element.type.element.library;
     for (final pref in element.library.prefixes) {
-      final prefLibrary = pref.librarySource.fullName;
-      if (prefLibrary == typeLibraryName) {
+      if (pref.enclosingElement.displayName == typeLib.displayName) {
         prefix = '${pref.displayName}.';
       }
     }
