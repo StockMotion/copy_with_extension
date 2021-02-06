@@ -184,6 +184,11 @@ class _FieldInfo {
 
     final typeLib = element.type.element.library;
     for (final pref in element.library.prefixes) {
+      if (typeLib.definingCompilationUnit == null ||
+          pref.enclosingElement.definingCompilationUnit == null) {
+        continue;
+      }
+
       if (pref.enclosingElement.definingCompilationUnit.uri ==
           typeLib.definingCompilationUnit.uri) {
         prefix = '${pref.displayName}.';
