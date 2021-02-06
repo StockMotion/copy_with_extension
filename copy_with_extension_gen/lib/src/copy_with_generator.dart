@@ -183,12 +183,17 @@ class _FieldInfo {
     var prefix = '';
 
     final typeLib = element.type.element.library;
+    print('Typlib comp unit = ${typeLib?.definingCompilationUnit?.uri}');
     for (final pref in element.library.prefixes) {
-      if (typeLib.definingCompilationUnit == null ||
-          pref.enclosingElement.definingCompilationUnit == null) {
+      if (typeLib?.definingCompilationUnit == null ||
+          pref.enclosingElement?.definingCompilationUnit == null) {
         continue;
       }
 
+      print(
+        'Pref ${pref.displayName} comp unit = ${pref?.enclosingElement?.definingCompilationUnit?.uri}',
+      );
+      
       if (pref.enclosingElement.definingCompilationUnit.uri ==
           typeLib.definingCompilationUnit.uri) {
         prefix = '${pref.displayName}.';
