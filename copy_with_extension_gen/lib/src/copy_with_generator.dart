@@ -21,7 +21,7 @@ class CopyWithGenerator extends GeneratorForAnnotation<CopyWith> {
     BuildStep buildStep,
   ) {
     if (!(element is ClassElement)) {
-      throw '$element is not a ClassElement';
+      throw '$element is not a ClassElement, isclassel(${element is ClassElement}, type(${element.runtimeType}))';
     }
 
     final classElement = element as ClassElement;
